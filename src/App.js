@@ -159,7 +159,7 @@ function App() {
                       <LinkContainer to="/admin/products">
                         <NavDropdown.Item>Products</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/invoices">
+                      {/* <LinkContainer to="/admin/invoices">
                         <NavDropdown.Item>Sales Invoices</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/invoicesBuy">
@@ -170,16 +170,16 @@ function App() {
                       </LinkContainer>
                       <LinkContainer to="/admin/invoicesBuyRec">
                         <NavDropdown.Item>Receipt Buys</NavDropdown.Item>
-                      </LinkContainer>
+                      </LinkContainer> */}
                       <LinkContainer to="/admin/orders">
                         <NavDropdown.Item>Orders</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/suppliers">
                         <NavDropdown.Item>Suppliers</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/stateOrds">
+                      {/* <LinkContainer to="/admin/stateOrds">
                         <NavDropdown.Item>States Order</NavDropdown.Item>
-                      </LinkContainer>
+                      </LinkContainer> */}
                       <LinkContainer to="/admin/users">
                         <NavDropdown.Item>Users</NavDropdown.Item>
                       </LinkContainer>
@@ -206,7 +206,7 @@ function App() {
               : 'side-navbar d-flex justify-content-between flex-wrap flex-column'
           }
         >
-          <Nav className="flex-column text-white w-100 p-2">
+          {/* <Nav className="flex-column text-white w-100 p-2">
             <Nav.Item>
               <strong>Categories</strong>
             </Nav.Item>
@@ -220,7 +220,7 @@ function App() {
                 </LinkContainer>
               </Nav.Item>
             ))}
-          </Nav>
+          </Nav> */}
         </div>
         <main>
           <Container className="mt-3">
@@ -293,7 +293,7 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
-              <Route
+              {/* <Route
                 path="/admin/invoices"
                 element={
                   <AdminRoute>
@@ -324,7 +324,7 @@ function App() {
                     <ReceiptBuyListScreen />
                   </AdminRoute>
                 }
-              ></Route>
+              ></Route> */}
               <Route
                 path="/admin/orders"
                 element={
@@ -349,14 +349,14 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
-              <Route
+              {/* <Route
                 path="/admin/stateOrds"
                 element={
                   <AdminRoute>
                     <StateOrdListScreen />
                   </AdminRoute>
                 }
-              ></Route>
+              ></Route> */}
               <Route
                 path="/admin/stateOrd/:id"
                 element={
@@ -405,7 +405,7 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
-              <Route
+              {/* <Route
                 path="/admin/invoicer"
                 element={
                   <AdminRoute>
@@ -444,7 +444,7 @@ function App() {
                     <InvoicesBuyRec />
                   </AdminRoute>
                 }
-              ></Route>
+              ></Route> */}
               <Route
                 path="/admin/product/:id"
                 element={
