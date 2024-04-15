@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "proxy": "jpz-stutz-production.up.railway.app",  
+  "proxy": "https://jpz-stutz-production.up.railway.app",  
   "version": "0.1.0",
   "private": true,
   "dependencies": {
