@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { Store } from '../Store';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { getError, API } from '../utils';
+import { getError } from '../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -80,7 +80,7 @@ export default function ProductListScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${API}/api/products/admin?page=${page} `, {
+        const { data } = await axios.get(`/api/products/admin?page=${page} `, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
 
@@ -101,7 +101,6 @@ export default function ProductListScreen() {
         dispatch({ type: 'CREATE_REQUEST' });
         const { data } = await axios.post(
           '/api/products',
-          `${API}/api/products`,
           {},
           {
             headers: { Authorization: `Bearer ${userInfo.token}` },
@@ -122,7 +121,7 @@ export default function ProductListScreen() {
   const deleteHandler = async (product) => {
     if (window.confirm('Are you sure to delete?')) {
       try {
-        await axios.delete(`${API}/api/products/${product._id}`, {
+        await axios.delete(`/api/products/${product._id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         toast.success('product deleted successfully');
@@ -168,7 +167,6 @@ export default function ProductListScreen() {
                 <th>PRICE</th>
                 <th>CATEGORY</th>
                 <th>BRAND</th>
-                <th>STOCK</th>
                 <th>ACTIONS</th>
               </tr>
             </thead>
@@ -180,7 +178,6 @@ export default function ProductListScreen() {
                   <td>{product.price}</td>
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
-                  <td>{product.countInStock}</td>
                   <td>
                     <Button
                       type="button"
