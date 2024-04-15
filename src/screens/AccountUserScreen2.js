@@ -16,7 +16,7 @@ import Col from 'react-bootstrap/Col';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
-import { getError } from '../utils';
+import { getError, API } from '../utils';
 import SearchBox from '../components/SearchBox';
 import Modal from 'react-bootstrap/Modal';
 import InvoiceListChaNum from './../screens/InvoiceListChaNum';
@@ -81,7 +81,7 @@ export default function AccountUserScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'TOTAL_FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/invoices/ctaS/${userId} `, {
+        const { data } = await axios.get(`${API}/api/invoices/ctaS/${userId} `, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'TOTAL_FETCH_SUCCESS', payload: data });
@@ -123,7 +123,7 @@ export default function AccountUserScreen() {
     if (window.confirm('Are you sure to delete?')) {
       try {
         dispatch({ type: 'DELETE_REQUEST' });
-        await axios.delete(`/api/invoices/${invoice._id}`, {
+        await axios.delete(`${API}/api/invoices/${invoice._id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         toast.success('invoice deleted successfully');

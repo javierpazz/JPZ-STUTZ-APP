@@ -12,7 +12,7 @@ import Col from 'react-bootstrap/Col';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
-import { getError } from '../utils';
+import { getError, API } from '../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -80,7 +80,7 @@ export default function OrderState({ invoice, show, setShow }) {
   useEffect(() => {
     const fetchDataVal = async () => {
       try {
-        const { data } = await axios.get(`/api/stateOrds/`, {
+        const { data } = await axios.get(`${API}/api/stateOrds/`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         setStateOrdss(data);
@@ -110,7 +110,7 @@ export default function OrderState({ invoice, show, setShow }) {
     try {
       //          dispatch({ type: 'UPDATE_REQUEST' });
       await axios.put(
-        `/api/invoices/${invoiceId}/applycha`,
+        `${API}/api/invoices/${invoiceId}/applycha`,
         {
           remNum: remNum,
           invNum: invNum,

@@ -16,7 +16,7 @@ import Col from 'react-bootstrap/Col';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
-import { getError } from '../utils';
+import { getError, API } from '../utils';
 import SearchBox from '../components/SearchBox';
 import Modal from 'react-bootstrap/Modal';
 import InvoiceListChaNum from './../screens/InvoiceListChaNum';
@@ -109,7 +109,7 @@ export default function InvoiceListScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'TOTAL_FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/invoices/S `, {
+        const { data } = await axios.get(`${API}/api/invoices/S `, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'TOTAL_FETCH_SUCCESS', payload: data });
@@ -128,7 +128,7 @@ export default function InvoiceListScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/invoices/adminS?page=${page} `, {
+        const { data } = await axios.get(`${API}/api/invoices/adminS?page=${page} `, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
@@ -161,7 +161,7 @@ const stockHandler = async (item) => {
 try {
   dispatch({ type: 'CREATE_REQUEST' });
   await axios.put(
-    `/api/products/upstock/${item.item._id}`,
+    `${API}/api/products/upstock/${item.item._id}`,
     {
       quantitys: item.item.quantity,
     },
@@ -202,7 +202,7 @@ try {
         controlStockHandler(invoice);
         try {
           dispatch({ type: 'DELETE_REQUEST' });
-          await axios.delete(`/api/orders/${invoice._id}`, {
+          await axios.delete(`${API}/api/orders/${invoice._id}`, {
             headers: { Authorization: `Bearer ${userInfo.token}` },
           });
           toast.success('order deleted successfully');
@@ -221,7 +221,7 @@ try {
               try {
                 dispatch({ type: 'UPDATE_REQUEST' });
                 await axios.put(
-                  `/api/invoices/${invoice._id}/deleteinvoice`,
+                  `${API}/api/invoices/${invoice._id}/deleteinvoice`,
                   {
                     remNum: null,
                     invNum: null,

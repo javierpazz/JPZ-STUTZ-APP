@@ -10,7 +10,7 @@ import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import { Store } from '../Store';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { getError } from '../utils';
+import { getError, API } from '../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -82,7 +82,7 @@ export default function ValueeListScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`/api/valuees/admin?page=${page} `, {
+        const { data } = await axios.get(`${API}/api/valuees/admin?page=${page} `, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
 
@@ -102,7 +102,7 @@ export default function ValueeListScreen() {
       try {
         dispatch({ type: 'CREATE_REQUEST' });
         const { data } = await axios.post(
-          '/api/valuees',
+          `${API}/api/valuees`,
           {},
           {
             headers: { Authorization: `Bearer ${userInfo.token}` },
@@ -124,7 +124,7 @@ export default function ValueeListScreen() {
   const deleteHandler = async (valuee) => {
     if (window.confirm('Are you sure to delete?')) {
       try {
-        await axios.delete(`/api/valuees/${valuee._id}`, {
+        await axios.delete(`${API}/api/valuees/${valuee._id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         toast.success('valuee deleted successfully');

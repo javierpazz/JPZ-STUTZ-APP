@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
-import { getError } from '../utils';
+import { getError, API } from '../utils';
 import axios from 'axios';
 
 const reducer = (state, action) => {
@@ -38,6 +38,7 @@ export default function ProfileScreen() {
     try {
       const { data } = await axios.put(
         '/api/users/profile',
+        `${API}/api/users/profile`,
         {
           name,
           email,

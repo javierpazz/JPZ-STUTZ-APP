@@ -12,7 +12,7 @@ import Col from 'react-bootstrap/Col';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
-import { getError } from '../utils';
+import { getError, API } from '../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -73,7 +73,7 @@ export default function InvoiceListApliRec({
     const fetchData = async () => {
       try {
         dispatch({ type: 'TOTAL_FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/invoices/StoAply/${userId} `, {
+        const { data } = await axios.get(`${API}/api/invoices/StoAply/${userId} `, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'TOTAL_FETCH_SUCCESS', payload: data });
@@ -110,7 +110,7 @@ export default function InvoiceListApliRec({
     try {
       //          dispatch({ type: 'UPDATE_REQUEST' });
       await axios.put(
-        `/api/invoices/${invId}/applyrec`,
+        `${API}/api/invoices/${invId}/applyrec`,
         {
           recNum: recNum,
           recDat: recDat,

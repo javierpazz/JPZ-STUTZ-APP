@@ -9,7 +9,7 @@ import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import { Store } from '../Store';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { getError } from '../utils';
+import { getError, API } from '../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -81,7 +81,7 @@ export default function SupplierListScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`/api/suppliers/admin?page=${page} `, {
+        const { data } = await axios.get(`${API}/api/suppliers/admin?page=${page} `, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
 
@@ -101,7 +101,7 @@ export default function SupplierListScreen() {
       try {
         dispatch({ type: 'CREATE_REQUEST' });
         const { data } = await axios.post(
-          '/api/suppliers',
+          `${API}/api/suppliers`,
           {},
           {
             headers: { Authorization: `Bearer ${userInfo.token}` },
@@ -122,7 +122,7 @@ export default function SupplierListScreen() {
   const deleteHandler = async (supplier) => {
     if (window.confirm('Are you sure to delete?')) {
       try {
-        await axios.delete(`/api/suppliers/${supplier._id}`, {
+        await axios.delete(`${API}/api/suppliers/${supplier._id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         toast.success('supplier deleted successfully');

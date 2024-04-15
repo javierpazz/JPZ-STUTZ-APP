@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { Store } from '../Store';
-import { getError } from '../utils';
+import { getError, API } from '../utils';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import { Helmet } from 'react-helmet-async';
@@ -60,7 +60,7 @@ export default function ValueEditScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/valuees/${valueeId}`);
+        const { data } = await axios.get(`${API}/api/valuees/${valueeId}`);
         setCodVal(data.codVal);
         setDesVal(data.desVal);
         dispatch({ type: 'FETCH_SUCCESS' });
@@ -79,7 +79,7 @@ export default function ValueEditScreen() {
     try {
       dispatch({ type: 'UPDATE_REQUEST' });
       await axios.put(
-        `/api/valuees/${valueeId}`,
+        `${API}/api/valuees/${valueeId}`,
         {
           _id: valueeId,
           codVal,

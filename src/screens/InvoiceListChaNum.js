@@ -12,7 +12,7 @@ import Col from 'react-bootstrap/Col';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
-import { getError } from '../utils';
+import { getError, API } from '../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -87,7 +87,7 @@ export default function InvoiceListChaNum({ invoice, show, setShow }) {
     try {
       //          dispatch({ type: 'UPDATE_REQUEST' });
       await axios.put(
-        `/api/invoices/${invoiceId}/applycha`,
+        `${API}/api/invoices/${invoiceId}/applycha`,
         {
           remNum: remNum,
           invNum: invNum,

@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Store } from '../Store';
-import { getError } from '../utils';
+import { getError, API } from '../utils';
 
 export default function ForgetPasswordScreen() {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function ForgetPasswordScreen() {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await Axios.post('/api/users/forget-password', {
+      const { data } = await Axios.post(`${API}/api/users/forget-password`, {
         email,
       });
       toast.success(data.message);

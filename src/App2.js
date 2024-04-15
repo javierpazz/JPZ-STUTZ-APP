@@ -57,7 +57,7 @@ import InvoicesBuyRec from './invoice/src/InvoicesBuyRec';
 import MapScreen from './screens/MapScreen';
 import SupportScreen from './screens/SupportScreen';
 import ChatBox from './components/ChatBox';
-
+import {API} from './utils';
 
 
 function App() {
@@ -77,7 +77,7 @@ function App() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await axios.get(`/api/products/categories`);
+        const { data } = await axios.get(`${API}/api/products/categories`);
         setCategories(data);
       } catch (err) {
         toast.error(getError(err));
@@ -211,7 +211,7 @@ function App() {
             {categories.map((category) => (
               <Nav.Item key={category}>
                 <LinkContainer
-                  to={`/searchcategory=${category}`}
+                  to={`/search?category=${category}`}
                   onClick={() => setSidebarIsOpen(false)}
                 >
                   <Nav.Link>{category}</Nav.Link>

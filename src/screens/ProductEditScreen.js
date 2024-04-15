@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { Store } from '../Store';
-import { getError } from '../utils';
+import { getError, API } from '../utils';
 import Container from 'react-bootstrap/Container';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Form from 'react-bootstrap/Form';
@@ -68,7 +68,7 @@ export default function ProductEditScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/products/${productId}`);
+        const { data } = await axios.get(`${API}/api/products/${productId}`);
         setName(data.name);
         setSlug(data.slug);
         setPrice(data.price);
@@ -94,7 +94,7 @@ export default function ProductEditScreen() {
     try {
       dispatch({ type: 'UPDATE_REQUEST' });
       await axios.put(
-        `/api/products/${productId}`,
+        `${API}/api/products/${productId}`,
         {
           _id: productId,
           name,
@@ -127,7 +127,7 @@ export default function ProductEditScreen() {
     bodyFormData.append('file', file);
     try {
       dispatch({ type: 'UPLOAD_REQUEST' });
-      const { data } = await axios.post('/api/upload', bodyFormData, {
+      const { data } = await axios.post(`${API}/api/upload`, bodyFormData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           authorization: `Bearer ${userInfo.token}`,

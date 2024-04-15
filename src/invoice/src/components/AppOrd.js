@@ -20,7 +20,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../../../components/LoadingBox';
-import { getError } from '../../../utils';
+import { getError, API } from '../../../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -134,7 +134,7 @@ function AppOrd() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'TOTAL_FETCH_REC_REQUEST' });
-        const { data } = await axios.get(`/api/receipts/S`, {
+        const { data } = await axios.get(`${API}/api/receipts/S`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'TOTAL_FETCH_REC_SUCCESS', payload: data });
@@ -169,7 +169,7 @@ function AppOrd() {
     const fetchOrder = async () => {
       try {
         dispatch({ type: 'ORDER_FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/orders/${orderId}`, {
+        const { data } = await axios.get(`${API}/api/orders/${orderId}`, {
           headers: { authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'ORDER_FETCH_SUCCESS', payload: data });
@@ -184,7 +184,7 @@ function AppOrd() {
   useEffect(() => {
     const fetchDataVal = async () => {
       try {
-        const { data } = await axios.get(`/api/valuees/`, {
+        const { data } = await axios.get(`${API}/api/valuees/`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         setValuess(data);
@@ -312,7 +312,7 @@ const RecControl = (e) => {
     try {
       dispatch({ type: 'CREATE_REQUEST' });
       const { data } = await axios.post(
-        '/api/receipts',
+        `${API}/api/receipts`,
         {
           receiptItems: receipt.receiptItems,
           shippingAddress: receipt.shippingAddress,
@@ -357,7 +357,7 @@ const RecControl = (e) => {
     try {
       dispatch({ type: 'CREATE_REQUEST' });
       await axios.put(
-        `/api/invoices/${orderId}/applyfac`,
+        `${API}/api/invoices/${orderId}/applyfac`,
         {
           remNum: invoice.remNum,
           invNum: invoice.invNum,

@@ -16,7 +16,7 @@ import Col from 'react-bootstrap/Col';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
-import { getError } from '../utils';
+import { getError, API } from '../utils';
 import SearchBox from '../components/SearchBox';
 import Modal from 'react-bootstrap/Modal';
 import InvoiceListApliRecBuy from './../screens/InvoiceListApliRecBuy';
@@ -95,7 +95,7 @@ export default function ReceiptListScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'TOTAL_FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/receipts/B`, {
+        const { data } = await axios.get(`${API}/api/receipts/B`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'TOTAL_FETCH_SUCCESS', payload: data });
@@ -113,7 +113,7 @@ export default function ReceiptListScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/receipts/adminB?page=${page} `, {
+        const { data } = await axios.get(`${API}/api/receipts/adminB?page=${page} `, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
@@ -147,7 +147,7 @@ const unapplyReceipt = async (receipt) => {
   try {
     //          dispatch({ type: 'UPDATE_REQUEST' });
     await axios.put(
-      `/api/invoices/${receipt.recNum}/unapplyrecB`,
+      `${API}/api/invoices/${receipt.recNum}/unapplyrecB`,
       {
         recNum: receipt.recNum,
         supplier: receipt.supplier._id,
@@ -182,7 +182,7 @@ const prodeleteReceipt = (receipt) => {
     if (window.confirm('Are you sure to delete?')) {
       try {
         dispatch({ type: 'DELETE_REQUEST' });
-        await axios.delete(`/api/receipts/${receipt._id}`, {
+        await axios.delete(`${API}/api/receipts/${receipt._id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         toast.success('receipt deleted successfully');

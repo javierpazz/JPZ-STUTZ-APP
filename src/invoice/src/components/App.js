@@ -20,7 +20,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../../../components/LoadingBox';
-import { getError } from '../../../utils';
+import { getError, API } from '../../../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -144,7 +144,7 @@ function App() {
     clearitems();
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`/api/users/`, {
+        const { data } = await axios.get(`${API}/api/users/`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         setUserss(data);
@@ -157,7 +157,7 @@ function App() {
   useEffect(() => {
     const fetchDataVal = async () => {
       try {
-        const { data } = await axios.get(`/api/valuees/`, {
+        const { data } = await axios.get(`${API}/api/valuees/`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         setValuess(data);
@@ -265,7 +265,7 @@ function App() {
     try {
       dispatch({ type: 'CREATE_REQUEST' });
       const { data } = await axios.post(
-        '/api/receipts',
+        `${API}/api/receipts`,
         {
           receiptItems: receipt.receiptItems,
           shippingAddress: receipt.shippingAddress,
@@ -313,7 +313,7 @@ function App() {
     try {
       dispatch({ type: 'CREATE_REQUEST' });
       await axios.put(
-        `/api/products/downstock/${item.item._id}`,
+        `${API}/api/products/downstock/${item.item._id}`,
         {
           quantitys: item.item.quantity,
         },
@@ -334,7 +334,7 @@ function App() {
     try {
       dispatch({ type: 'CREATE_REQUEST' });
       const { data } = await axios.post(
-        '/api/invoices',
+        `${API}/api/invoices`,
 
         {
           invoiceItems: invoice.invoiceItems,

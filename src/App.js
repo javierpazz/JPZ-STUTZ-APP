@@ -18,6 +18,7 @@ import SignupScreen from './screens/SignupScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
+import InvoiceHistoryScreen from './screens/InvoiceHistoryScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import Button from 'react-bootstrap/Button';
@@ -30,14 +31,40 @@ import DashboardScreen from './screens/DashboardScreen';
 import AdminRoute from './components/AdminRoute';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
+
+import AccountUserScreen from './screens/AccountUserScreen';
+import AccountSuppliScreen from './screens/AccountSuppliScreen';
+import InvoiceListScreen from './screens/InvoiceListScreen';
+import InvoiceBuyListScreen from './screens/InvoiceBuyListScreen';
+import ReceiptListScreen from './screens/ReceiptListScreen';
+import ReceiptBuyListScreen from './screens/ReceiptBuyListScreen';
 import OrderListScreen from './screens/OrderListScreen';
+import SupplierListScreen from './screens/SupplierListScreen';
+import SupplierEditScreen from './screens/SupplierEditScreen';
+import StateOrdListScreen from './screens/StateOrdListScreen';
+import StateOrdEditScreen from './screens/StateOrdEditScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
+import ValueeListScreen from './screens/ValueeListScreen';
+import ValueeEditScreen from './screens/ValueeEditScreen';
+import ConfigurationListScreen from './screens/ConfigurationListScreen';
+import ConfigurationEditScreen from './screens/ConfigurationEditScreen';
+import InvoicesOrd from './invoice/src/InvoicesOrd';
+import Invoices from './invoice/src/Invoices';
+import InvoicesRec from './invoice/src/InvoicesRec';
+import InvoicesBuy from './invoice/src/InvoicesBuy';
+import InvoicesBuyRec from './invoice/src/InvoicesBuyRec';
 import MapScreen from './screens/MapScreen';
+import ForgetPasswordScreen from './screens/ForgetPasswordScreen';
+import ResetPasswordScreen from './screens/ResetPasswordScreen';
+import SupportScreen from './screens/SupportScreen';
+import ChatBox from './components/ChatBox';
+import {API} from './utils';
+
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { fullBox, cart, userInfo } = state;
+  const { fullBox, cart, invoice, userInfo } = state;
 
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
@@ -49,6 +76,17 @@ function App() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
 
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       const { data } = await axios.get(`/api/products/categories`);
+  //       setCategories(data);
+  //     } catch (err) {
+  //       toast.error(getError(err));
+  //     }
+  //   };
+  //   fetchCategories();
+  // }, []);
   return (
     <BrowserRouter>
       <div
@@ -93,6 +131,9 @@ function App() {
                       <LinkContainer to="/profile">
                         <NavDropdown.Item>User Profile</NavDropdown.Item>
                       </LinkContainer>
+                      <LinkContainer to="/invoicehistory">
+                        <NavDropdown.Item>Inoice History</NavDropdown.Item>
+                      </LinkContainer>
                       <LinkContainer to="/orderhistory">
                         <NavDropdown.Item>Order History</NavDropdown.Item>
                       </LinkContainer>
@@ -118,11 +159,38 @@ function App() {
                       <LinkContainer to="/admin/products">
                         <NavDropdown.Item>Products</NavDropdown.Item>
                       </LinkContainer>
+                      <LinkContainer to="/admin/invoices">
+                        <NavDropdown.Item>Sales Invoices</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/invoicesBuy">
+                        <NavDropdown.Item>Buy Invoices</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/invoicesRec">
+                        <NavDropdown.Item>Receipts Sales</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/invoicesBuyRec">
+                        <NavDropdown.Item>Receipt Buys</NavDropdown.Item>
+                      </LinkContainer>
                       <LinkContainer to="/admin/orders">
                         <NavDropdown.Item>Orders</NavDropdown.Item>
                       </LinkContainer>
+                      <LinkContainer to="/admin/suppliers">
+                        <NavDropdown.Item>Suppliers</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/stateOrds">
+                        <NavDropdown.Item>States Order</NavDropdown.Item>
+                      </LinkContainer>
                       <LinkContainer to="/admin/users">
                         <NavDropdown.Item>Users</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/valuees">
+                        <NavDropdown.Item>Values</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/configurations">
+                        <NavDropdown.Item>Configurations</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/support">
+                        <NavDropdown.Item>Support</NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
                   )}
@@ -138,6 +206,21 @@ function App() {
               : 'side-navbar d-flex justify-content-between flex-wrap flex-column'
           }
         >
+          <Nav className="flex-column text-white w-100 p-2">
+            <Nav.Item>
+              <strong>Categories</strong>
+            </Nav.Item>
+            {categories.map((category) => (
+              <Nav.Item key={category}>
+                <LinkContainer
+                  to={`/search?category=${category}`}
+                  onClick={() => setSidebarIsOpen(false)}
+                >
+                  <Nav.Link>{category}</Nav.Link>
+                </LinkContainer>
+              </Nav.Item>
+            ))}
+          </Nav>
         </div>
         <main>
           <Container className="mt-3">
@@ -147,6 +230,14 @@ function App() {
               <Route path="/search" element={<SearchScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
+              <Route
+                path="/forget-password"
+                element={<ForgetPasswordScreen />}
+              />
+              <Route
+                path="/reset-password/:token"
+                element={<ResetPasswordScreen />}
+              />
               <Route
                 path="/profile"
                 element={
@@ -173,6 +264,14 @@ function App() {
                 }
               ></Route>
               <Route
+                path="/invoicehistory"
+                element={
+                  <ProtectedRoute>
+                    <InvoiceHistoryScreen />
+                  </ProtectedRoute>
+                }
+              ></Route>
+              <Route
                 path="/orderhistory"
                 element={
                   <ProtectedRoute>
@@ -195,10 +294,74 @@ function App() {
                 }
               ></Route>
               <Route
+                path="/admin/invoices"
+                element={
+                  <AdminRoute>
+                    <InvoiceListScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/invoicesBuy"
+                element={
+                  <AdminRoute>
+                    <InvoiceBuyListScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/invoicesRec"
+                element={
+                  <AdminRoute>
+                    <ReceiptListScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/invoicesBuyRec"
+                element={
+                  <AdminRoute>
+                    <ReceiptBuyListScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
                 path="/admin/orders"
                 element={
                   <AdminRoute>
                     <OrderListScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/suppliers"
+                element={
+                  <AdminRoute>
+                    <SupplierListScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/supplier/:id"
+                element={
+                  <AdminRoute>
+                    <SupplierEditScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/stateOrds"
+                element={
+                  <AdminRoute>
+                    <StateOrdListScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/stateOrd/:id"
+                element={
+                  <AdminRoute>
+                    <StateOrdEditScreen />
                   </AdminRoute>
                 }
               ></Route>
@@ -219,6 +382,70 @@ function App() {
                 }
               ></Route>
               <Route
+                path="/admin/valuees"
+                element={
+                  <AdminRoute>
+                    <ValueeListScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/configurations"
+                element={
+                  <AdminRoute>
+                    <ConfigurationListScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/support"
+                element={
+                  <AdminRoute>
+                    <SupportScreen/>
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/invoicer"
+                element={
+                  <AdminRoute>
+                    <Invoices />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/invoicerOrd/:id"
+                element={
+                  <AdminRoute>
+                    <InvoicesOrd />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/invoicerRec"
+                element={
+                  <AdminRoute>
+                    <InvoicesRec />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/invoicerBuy"
+                element={
+                  <AdminRoute>
+                    <InvoicesBuy />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/invoicerBuyRec"
+                element={
+                  <AdminRoute>
+                    <InvoicesBuyRec />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
                 path="/admin/product/:id"
                 element={
                   <AdminRoute>
@@ -234,12 +461,45 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
+              <Route
+                path="/admin/valuee/:id"
+                element={
+                  <AdminRoute>
+                    <ValueeEditScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/configuration/:id"
+                element={
+                  <AdminRoute>
+                    <ConfigurationEditScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/client/:id"
+                element={
+                  <AdminRoute>
+                    <AccountUserScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/suppli/:id"
+                element={
+                  <AdminRoute>
+                    <AccountSuppliScreen />
+                  </AdminRoute>
+                }
+              ></Route>
 
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>
         </main>
         <footer>
+        {userInfo && !userInfo.isAdmin && <ChatBox userInfo={userInfo} />}
           <div className="text-center">All rights reserved</div>
         </footer>
       </div>

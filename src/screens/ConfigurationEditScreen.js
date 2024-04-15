@@ -10,6 +10,7 @@ import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import Button from 'react-bootstrap/Button';
+import { API } from '../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -62,7 +63,7 @@ export default function ConfigurationEditScreen() {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
         const { data } = await axios.get(
-          `/api/configurations/${configurationId}`
+          `${API}/api/configurations/${configurationId}`
         );
         setCodCon(data.codCon);
         setName(data.name);
@@ -82,7 +83,7 @@ export default function ConfigurationEditScreen() {
     try {
       dispatch({ type: 'UPDATE_REQUEST' });
       await axios.put(
-        `/api/configurations/${configurationId}`,
+        `${API}/api/configurations/${configurationId}`,
         {
           _id: configurationId,
           codCon,

@@ -16,7 +16,7 @@ import Col from 'react-bootstrap/Col';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
-import { getError } from '../utils';
+import { getError, API } from '../utils';
 import SearchBox from '../components/SearchBox';
 import Modal from 'react-bootstrap/Modal';
 import InvoiceListChaNum from './../screens/InvoiceListChaNum';
@@ -95,7 +95,7 @@ export default function AccountUserScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'TOTAL_FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/invoices/ctaB/${suppliId} `, {
+        const { data } = await axios.get(`${API}/api/invoices/ctaB/${suppliId} `, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'TOTAL_FETCH_SUCCESS', payload: data });
@@ -154,7 +154,7 @@ export default function AccountUserScreen() {
         try {
           dispatch({ type: 'UPDATE_REQUEST' });
           await axios.put(
-            `/api/invoices/${invoice._id}/deleteinvoice`,
+            `${API}/api/invoices/${invoice._id}/deleteinvoice`,
             {
               remNum: null,
               invNum: null,
@@ -183,7 +183,7 @@ export default function AccountUserScreen() {
         try {
           dispatch({ type: 'UPDATE_REQUEST' });
           await axios.put(
-            `/api/invoices/${invoice._id}/deleteinvoice`,
+            `${API}/api/invoices/${invoice._id}/deleteinvoice`,
             {
               remNum: null,
               invNum: null,

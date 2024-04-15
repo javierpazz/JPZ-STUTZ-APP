@@ -3,3 +3,6 @@ export const getError = (error) => {
     ? error.response.data.message
     : error.message;
 };
+
+export const API = "https://jpz-stutz-production.up.railway.app";
+// export const API = "http://localhost:5000";

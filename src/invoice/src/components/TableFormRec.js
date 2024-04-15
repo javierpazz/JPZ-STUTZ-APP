@@ -10,6 +10,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Store } from '../../../Store';
+import { getError, API } from '../../../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -75,7 +76,7 @@ export default function TableFormRec({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`/api/valuees/`, {
+        const { data } = await axios.get(`${API}/api/valuees/`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         setValuees(data);

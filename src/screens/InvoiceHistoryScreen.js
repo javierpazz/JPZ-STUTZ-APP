@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
-import { getError } from '../utils';
+import { getError, API } from '../utils';
 import Button from 'react-bootstrap/esm/Button';
 
 const reducer = (state, action) => {
@@ -46,7 +46,7 @@ export default function InvoiceHistoryScreen() {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
         const { data } = await axios.get(
-          `/api/invoices/mine?page=${page} `,
+          `${API}/api/invoices/mine?page=${page} `,
 
           { headers: { Authorization: `Bearer ${userInfo.token}` } }
         );

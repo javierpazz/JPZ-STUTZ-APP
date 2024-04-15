@@ -20,7 +20,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../../../components/LoadingBox';
-import { getError } from '../../../utils';
+import { getError, API } from '../../../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -127,7 +127,7 @@ function AppBuyRec() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'TOTAL_FETCH_REC_REQUEST' });
-        const { data } = await axios.get(`/api/receipts/B`, {
+        const { data } = await axios.get(`${API}/api/receipts/B`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'TOTAL_FETCH_REC_SUCCESS', payload: data });
@@ -175,7 +175,7 @@ function AppBuyRec() {
   useEffect(() => {
     const fetchDataVal = async () => {
       try {
-        const { data } = await axios.get(`/api/valuees/`, {
+        const { data } = await axios.get(`${API}/api/valuees/`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         setValuess(data);
@@ -272,7 +272,7 @@ if (oldRecipt.length > 0) {
     try {
       dispatch({ type: 'CREATE_REQUEST' });
       const { data } = await axios.post(
-        '/api/receipts',
+        `${API}/api/receipts`,
         {
           receiptItems: receipt.receiptItems,
           itemsPrice: receipt.itemsPrice,
